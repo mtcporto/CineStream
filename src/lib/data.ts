@@ -4,24 +4,24 @@ import type { Stream } from './types';
 export const mockStreams: Stream[] = [
   {
     id: '1',
-    title: 'Canal de Notícias 24h (Teste HLS)',
-    description: 'Fique por dentro das últimas notícias do Brasil e do mundo, ao vivo, 24 horas por dia.',
+    title: 'ISTV Nacional (Teste HLS Confirmado)',
+    description: 'Fique por dentro das últimas notícias do Brasil e do mundo, ao vivo, 24 horas por dia. Testando com stream confirmado.',
     genre: 'Notícias',
     language: 'Português',
     quality: 'Adaptável',
     thumbnailUrl: 'https://placehold.co/400x225.png',
-    streamUrl: 'https://devstreaming-cdn.apple.com/videos/streaming/examples/img_bipbop_adv_example_fmp4/master.m3u8',
+    streamUrl: 'https://video08.logicahost.com.br/istvnacional/srt.stream/istvnacional.m3u8', // URL Confirmada
     dataAiHint: 'news live',
   },
   {
     id: '2',
-    title: 'Esportes Ao Vivo HD (Teste HLS)',
+    title: 'Esportes Ao Vivo HD (Teste HLS Apple)',
     description: 'Transmissão ao vivo dos principais eventos esportivos, análises e debates.',
     genre: 'Esportes',
     language: 'Português',
     quality: 'Adaptável',
     thumbnailUrl: 'https://placehold.co/400x225.png',
-    streamUrl: 'https://devstreaming-cdn.apple.com/videos/streaming/examples/img_bipbop_adv_example_fmp4/master.m3u8',
+    streamUrl: 'https://devstreaming-cdn.apple.com/videos/streaming/examples/img_bipbop_adv_example_fmp4/master.m3u8', // Stream de teste da Apple
     dataAiHint: 'sports soccer',
   },
   {
@@ -37,13 +37,13 @@ export const mockStreams: Stream[] = [
   },
   {
     id: '4',
-    title: 'Sessão de Filmes Clássicos (Teste HLS)',
+    title: 'Sessão de Filmes Clássicos (Teste HLS Sintel)',
     description: 'Relembre os grandes clássicos do cinema mundial, dublados e legendados.',
     genre: 'Filmes',
     language: 'Português',
     quality: 'Adaptável',
     thumbnailUrl: 'https://placehold.co/400x225.png',
-    streamUrl: 'https://bitmovin-a.akamaihd.net/content/sintel/hls/playlist.m3u8',
+    streamUrl: 'https://bitmovin-a.akamaihd.net/content/sintel/hls/playlist.m3u8', // Outro stream de teste público
     dataAiHint: 'classic movie',
   },
   {
@@ -59,13 +59,13 @@ export const mockStreams: Stream[] = [
   },
   {
     id: '6',
-    title: 'Documentários Incríveis (Teste HLS)',
+    title: 'Documentários Incríveis (Teste HLS Apple)',
     description: 'Explore a natureza, história, ciência e cultura com documentários fascinantes.',
     genre: 'Documentário',
     language: 'Inglês',
     quality: 'Adaptável',
     thumbnailUrl: 'https://placehold.co/400x225.png',
-    streamUrl: 'https://devstreaming-cdn.apple.com/videos/streaming/examples/img_bipbop_adv_example_fmp4/master.m3u8',
+    streamUrl: 'https://devstreaming-cdn.apple.com/videos/streaming/examples/img_bipbop_adv_example_fmp4/master.m3u8', // Stream de teste da Apple
     dataAiHint: 'nature documentary',
   },
   {
@@ -81,18 +81,18 @@ export const mockStreams: Stream[] = [
   },
   {
     id: '8',
-    title: 'Canal Retro Gamer (Teste HLS)',
+    title: 'Canal Retro Gamer (Teste HLS Apple)',
     description: 'Gameplay de jogos clássicos, reviews e nostalgia do mundo dos games.',
     genre: 'Games',
     language: 'Português',
     quality: 'Adaptável',
     thumbnailUrl: 'https://placehold.co/400x225.png',
-    streamUrl: 'https://devstreaming-cdn.apple.com/videos/streaming/examples/img_bipbop_adv_example_fmp4/master.m3u8',
+    streamUrl: 'https://devstreaming-cdn.apple.com/videos/streaming/examples/img_bipbop_adv_example_fmp4/master.m3u8', // Stream de teste da Apple
     dataAiHint: 'retro gaming',
   },
   {
     id: '9',
-    title: 'Teste Playlist Brasil (HLS)',
+    title: 'Teste Playlist Brasil (HLS Genérica)',
     description: 'Testando uma playlist M3U8 de canais brasileiros. A reprodução dependerá do primeiro stream válido na lista.',
     genre: 'Teste',
     language: 'Português',
