@@ -21,8 +21,8 @@ export const mockStreams: Stream[] = [
     language: 'Português',
     quality: 'Adaptável',
     thumbnailUrl: 'https://placehold.co/400x225.png',
-    // Exemplo de stream HLS público para teste (Mux's test stream)
-    streamUrl: 'https://stream.mux.com/x36xhzz/x36xhzz.m3u8', // VOD, not live
+    // Usando o stream da Apple como substituto para o Mux que estava com erro 400
+    streamUrl: 'https://devstreaming-cdn.apple.com/videos/streaming/examples/img_bipbop_adv_example_fmp4/master.m3u8',
     dataAiHint: 'sports soccer',
   },
   {
@@ -33,7 +33,7 @@ export const mockStreams: Stream[] = [
     language: 'Português',
     quality: '720p',
     thumbnailUrl: 'https://placehold.co/400x225.png',
-    streamUrl: 'placeholder_tv_channel_url_3', // Mantendo placeholder para variar
+    streamUrl: 'placeholder_tv_channel_url_3', 
     dataAiHint: 'cooking food',
   },
   {
@@ -67,7 +67,6 @@ export const mockStreams: Stream[] = [
     language: 'Inglês',
     quality: 'Adaptável',
     thumbnailUrl: 'https://placehold.co/400x225.png',
-    // Usando o mesmo stream da Apple para variedade de conteúdo
     streamUrl: 'https://devstreaming-cdn.apple.com/videos/streaming/examples/img_bipbop_adv_example_fmp4/master.m3u8',
     dataAiHint: 'nature documentary',
   },
@@ -90,7 +89,8 @@ export const mockStreams: Stream[] = [
     language: 'Português',
     quality: 'Adaptável',
     thumbnailUrl: 'https://placehold.co/400x225.png',
-    streamUrl: 'https://stream.mux.com/x36xhzz/x36xhzz.m3u8', // Reutilizando stream de teste
+    // Usando o stream da Apple como substituto para o Mux que estava com erro 400
+    streamUrl: 'https://devstreaming-cdn.apple.com/videos/streaming/examples/img_bipbop_adv_example_fmp4/master.m3u8',
     dataAiHint: 'retro gaming',
   },
 ];

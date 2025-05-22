@@ -16,6 +16,7 @@ import { AppHeader } from '@/components/app-header';
 import { Toaster } from '@/components/ui/toaster';
 import Link from 'next/link';
 import { Home, ListVideo, Film, Settings, Tv2 } from 'lucide-react';
+import Script from 'next/script'; // Import Script component
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -92,6 +93,11 @@ export default function RootLayout({
           </SidebarInset>
         </SidebarProvider>
         <Toaster />
+        {/* Load HLS.js from CDN. Removed 'async', using 'defer' as a common practice.
+            Or use 'beforeInteractive' strategy with next/script for earlier availability if needed.
+            For simplicity, just removing async for now.
+        */}
+        <Script src="https://cdn.jsdelivr.net/npm/hls.js@latest" strategy="lazyOnload" />
       </body>
     </html>
   );

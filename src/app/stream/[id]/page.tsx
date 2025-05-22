@@ -1,5 +1,5 @@
 import { getStreamById } from '@/lib/data';
-import type { Stream as Channel } from '@/lib/types'; // Using Stream as Channel type
+import type { Stream as Channel } from '@/lib/types';
 import { VideoPlayer } from '@/components/video-player';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -10,19 +10,23 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 
 interface ChannelDetailsPageProps {
-  params: { id: string };
+  params: { id: string } | Promise<{ id: string }>; // Adjusting type based on error
 }
 
 export async function generateMetadata({ params }: ChannelDetailsPageProps) {
-  const channel = getStreamById(params.id);
+  const resolvedParams = await params; // Attempt to resolve params if it's a Promise
+  const channelId = resolvedParams.id;
+  const channel = getStreamById(channelId);
   if (!channel) {
     return { title: 'Canal Não Encontrado - Canal Play' };
   }
   return { title: `${channel.title} - Canal Play` };
 }
 
-export default function ChannelDetailsPage({ params }: ChannelDetailsPageProps) {
-  const channel = getStreamById(params.id);
+export default async function ChannelDetailsPage({ params }: ChannelDetailsPageProps) {
+  const resolvedParams = await params; // Attempt to resolve params if it's a Promise
+  const channelId = resolvedParams.id;
+  const channel = getStreamById(channelId);
 
   if (!channel) {
     return (
@@ -42,18 +46,17 @@ export default function ChannelDetailsPage({ params }: ChannelDetailsPageProps) 
   return (
     <div className="container mx-auto max-w-4xl py-8">
       <div className="mb-8">
-        {/* Pass channel details to VideoPlayer */}
         <VideoPlayer streamTitle={channel.title} streamUrl={channel.streamUrl} />
       </div>
 
       <Card className="overflow-hidden shadow-lg">
         <div className="md:flex">
-          <div className="md:w-1/3 relative hidden md:block aspect-[16/9]"> {/* Added aspect-ratio for consistency */}
+          <div className="md:w-1/3 relative hidden md:block">
             <Image
               src={channel.thumbnailUrl}
               alt={`Logo do canal ${channel.title}`}
               fill
-              sizes="(min-width: 768px) 33vw"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               className="rounded-l-lg object-cover"
               data-ai-hint={channel.dataAiHint || "tv channel logo"}
             />
