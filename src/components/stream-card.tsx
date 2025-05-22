@@ -20,9 +20,9 @@ export function StreamCard({ stream: channel }: StreamCardProps) {
             <Image
               src={channel.thumbnailUrl}
               alt={`Logo para ${channel.title}`}
-              layout="fill"
-              objectFit="cover"
-              className="transition-transform duration-300 group-hover:scale-105"
+              fill
+              sizes="(max-width: 639px) 100vw, (max-width: 767px) 50vw, (max-width: 1023px) 33vw, (max-width: 1279px) 25vw, 20vw"
+              className="transition-transform duration-300 group-hover:scale-105 object-cover"
               data-ai-hint={channel.dataAiHint || "tv channel logo"}
             />
             <div className="absolute inset-0 flex items-center justify-center bg-black/30 opacity-0 transition-opacity duration-300 group-hover:opacity-100">

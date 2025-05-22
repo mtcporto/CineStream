@@ -16,7 +16,7 @@ interface ChannelDetailsPageProps {
 export async function generateMetadata({ params }: ChannelDetailsPageProps) {
   const channel = getStreamById(params.id);
   if (!channel) {
-    return { title: 'Canal Não Encontrado' };
+    return { title: 'Canal Não Encontrado - Canal Play' };
   }
   return { title: `${channel.title} - Canal Play` };
 }
@@ -48,13 +48,13 @@ export default function ChannelDetailsPage({ params }: ChannelDetailsPageProps) 
 
       <Card className="overflow-hidden shadow-lg">
         <div className="md:flex">
-          <div className="md:w-1/3 relative hidden md:block">
+          <div className="md:w-1/3 relative hidden md:block aspect-[16/9]"> {/* Added aspect-ratio for consistency */}
             <Image
               src={channel.thumbnailUrl}
               alt={`Logo do canal ${channel.title}`}
-              layout="fill"
-              objectFit="cover"
-              className="rounded-l-lg"
+              fill
+              sizes="(min-width: 768px) 33vw"
+              className="rounded-l-lg object-cover"
               data-ai-hint={channel.dataAiHint || "tv channel logo"}
             />
           </div>
