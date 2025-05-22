@@ -3,24 +3,26 @@ import type { Stream } from './types';
 export const mockStreams: Stream[] = [
   {
     id: '1',
-    title: 'Canal de Notícias 24h',
+    title: 'Canal de Notícias 24h (Teste HLS)',
     description: 'Fique por dentro das últimas notícias do Brasil e do mundo, ao vivo, 24 horas por dia.',
     genre: 'Notícias',
     language: 'Português',
-    quality: '1080p',
+    quality: 'Adaptável',
     thumbnailUrl: 'https://placehold.co/400x225.png',
-    streamUrl: 'placeholder_tv_channel_url_1',
+    // Exemplo de stream HLS público para teste (Apple's BipBop)
+    streamUrl: 'https://devstreaming-cdn.apple.com/videos/streaming/examples/img_bipbop_adv_example_fmp4/master.m3u8',
     dataAiHint: 'news live',
   },
   {
     id: '2',
-    title: 'Esportes Ao Vivo HD',
+    title: 'Esportes Ao Vivo HD (Teste HLS)',
     description: 'Transmissão ao vivo dos principais eventos esportivos, análises e debates.',
     genre: 'Esportes',
     language: 'Português',
-    quality: '1080p',
+    quality: 'Adaptável',
     thumbnailUrl: 'https://placehold.co/400x225.png',
-    streamUrl: 'placeholder_tv_channel_url_2',
+    // Exemplo de stream HLS público para teste (Mux's test stream)
+    streamUrl: 'https://stream.mux.com/x36xhzz/x36xhzz.m3u8', // VOD, not live
     dataAiHint: 'sports soccer',
   },
   {
@@ -31,18 +33,19 @@ export const mockStreams: Stream[] = [
     language: 'Português',
     quality: '720p',
     thumbnailUrl: 'https://placehold.co/400x225.png',
-    streamUrl: 'placeholder_tv_channel_url_3',
+    streamUrl: 'placeholder_tv_channel_url_3', // Mantendo placeholder para variar
     dataAiHint: 'cooking food',
   },
   {
     id: '4',
-    title: 'Sessão de Filmes Clássicos',
+    title: 'Sessão de Filmes Clássicos (Teste HLS)',
     description: 'Relembre os grandes clássicos do cinema mundial, dublados e legendados.',
     genre: 'Filmes',
     language: 'Português',
-    quality: '1080p',
+    quality: 'Adaptável',
     thumbnailUrl: 'https://placehold.co/400x225.png',
-    streamUrl: 'placeholder_tv_channel_url_4',
+    // Outro stream de teste HLS (Bitmovin Sintel)
+    streamUrl: 'https://bitmovin-a.akamaihd.net/content/sintel/hls/playlist.m3u8',
     dataAiHint: 'classic movie',
   },
   {
@@ -58,13 +61,14 @@ export const mockStreams: Stream[] = [
   },
   {
     id: '6',
-    title: 'Documentários Incríveis',
+    title: 'Documentários Incríveis (Teste HLS)',
     description: 'Explore a natureza, história, ciência e cultura com documentários fascinantes.',
     genre: 'Documentário',
     language: 'Inglês',
-    quality: '1080p',
+    quality: 'Adaptável',
     thumbnailUrl: 'https://placehold.co/400x225.png',
-    streamUrl: 'placeholder_tv_channel_url_6',
+    // Usando o mesmo stream da Apple para variedade de conteúdo
+    streamUrl: 'https://devstreaming-cdn.apple.com/videos/streaming/examples/img_bipbop_adv_example_fmp4/master.m3u8',
     dataAiHint: 'nature documentary',
   },
   {
@@ -80,13 +84,13 @@ export const mockStreams: Stream[] = [
   },
   {
     id: '8',
-    title: 'Canal Retro Gamer',
+    title: 'Canal Retro Gamer (Teste HLS)',
     description: 'Gameplay de jogos clássicos, reviews e nostalgia do mundo dos games.',
     genre: 'Games',
     language: 'Português',
-    quality: '720p',
+    quality: 'Adaptável',
     thumbnailUrl: 'https://placehold.co/400x225.png',
-    streamUrl: 'placeholder_tv_channel_url_8',
+    streamUrl: 'https://stream.mux.com/x36xhzz/x36xhzz.m3u8', // Reutilizando stream de teste
     dataAiHint: 'retro gaming',
   },
 ];
