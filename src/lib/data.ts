@@ -4,37 +4,48 @@ import type { Stream } from './types';
 export const mockStreams: Stream[] = [
   {
     id: '1',
-    title: 'ISTV Nacional',
-    description: 'Fique por dentro das últimas notícias do Brasil e do mundo, ao vivo, 24 horas por dia.',
+    title: 'ISTV Nacional (Ao Vivo)',
+    description: 'Fique por dentro das últimas notícias do Brasil e do mundo, com transmissão ao vivo.',
     genre: 'Notícias',
     language: 'Português',
     quality: 'Adaptável',
     thumbnailUrl: 'https://placehold.co/400x225.png',
     streamUrl: 'https://video08.logicahost.com.br/istvnacional/srt.stream/istvnacional.m3u8',
-    dataAiHint: 'news live',
+    dataAiHint: 'news live tv',
   },
   {
     id: '4',
-    title: 'Cinema Livre: Sintel',
-    description: 'Assista ao filme de animação open-source "Sintel", uma produção da Blender Foundation.',
+    title: 'Sintel (Filme Open-Source)',
+    description: 'Curta o filme de animação open-source "Sintel", uma aventura épica da Blender Foundation.',
     genre: 'Filmes',
-    language: 'Inglês', // Sintel is mostly without dialogue, but often categorized as English for its origin.
+    language: 'Inglês (sem diálogo principal)',
     quality: 'Adaptável',
     thumbnailUrl: 'https://placehold.co/400x225.png',
     streamUrl: 'https://bitmovin-a.akamaihd.net/content/sintel/hls/playlist.m3u8',
-    dataAiHint: 'animation movie',
+    dataAiHint: 'animation fantasy movie',
   },
-  // {
-  //   id: '10', // Mantendo o ID para consistência se já houver links ou favoritos, mas comentando
-  //   title: 'NASA TV (Public)',
-  //   description: 'Transmissão ao vivo da NASA com cobertura de missões, eventos e documentários espaciais.',
-  //   genre: 'Educacional',
-  //   language: 'Inglês',
-  //   quality: 'Adaptável',
-  //   thumbnailUrl: 'https://placehold.co/400x225.png',
-  //   streamUrl: 'https://nasa-i.akamaihd.net/hls/live/253565/NASA-NTV1-Public/master.m3u8', // Este stream estava retornando 403 Forbidden
-  //   dataAiHint: 'nasa space',
-  // },
+  {
+    id: '11',
+    title: 'Big Buck Bunny (Filme Open-Source)',
+    description: 'Divirta-se com "Big Buck Bunny", um curta de animação cômico e open-source da Blender Foundation.',
+    genre: 'Animação',
+    language: 'Inglês (sem diálogo)',
+    quality: 'Adaptável',
+    thumbnailUrl: 'https://placehold.co/400x225.png',
+    streamUrl: 'https://stream.mux.com/A3VXy02VoU02HRJGApSpdc02V6wZ5LOCKdVE/high.m3u8', // MUX HLS stream for Big Buck Bunny
+    dataAiHint: 'animation comedy nature',
+  },
+  {
+    id: '12',
+    title: 'Art of Motion (Demo Visual)',
+    description: 'Um stream de demonstração com belas imagens da natureza e esportes, ideal para testar a qualidade do vídeo.',
+    genre: 'Demonstração',
+    language: 'Instrumental',
+    quality: 'Adaptável',
+    thumbnailUrl: 'https://placehold.co/400x225.png',
+    streamUrl: 'https://bitmovin-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8', // Bitmovin Art of Motion HLS
+    dataAiHint: 'nature sports demo',
+  },
 ];
 
 export const genres = Array.from(new Set(mockStreams.map(s => s.genre))).sort();
