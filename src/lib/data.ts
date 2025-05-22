@@ -3,17 +3,6 @@ import type { Stream } from './types';
 
 export const mockStreams: Stream[] = [
   {
-    id: '1',
-    title: 'ISTV Nacional (Ao Vivo)',
-    description: 'Fique por dentro das últimas notícias do Brasil e do mundo, com transmissão ao vivo.',
-    genre: 'Notícias',
-    language: 'Português',
-    quality: 'Adaptável',
-    thumbnailUrl: 'https://placehold.co/400x225.png',
-    streamUrl: 'https://video08.logicahost.com.br/istvnacional/srt.stream/istvnacional.m3u8',
-    dataAiHint: 'news live tv',
-  },
-  {
     id: '2',
     title: 'Sintel (Filme Open-Source)',
     description: 'Curta o filme de animação open-source "Sintel", uma aventura épica da Blender Foundation.',
