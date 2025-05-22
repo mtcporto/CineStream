@@ -1,19 +1,45 @@
+
 'use client';
 
 import Link from 'next/link';
 import Image from 'next/image';
-import type { Stream as Channel } from '@/lib/types'; // Using Stream as Channel type
+import type { Stream as Channel } from '@/lib/types';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { PlayCircle, Tv2 } from 'lucide-react';
 
 interface StreamCardProps {
-  stream: Channel; // Prop remains 'stream', but it holds Channel data
+  stream: Channel;
 }
 
+const MAX_HISTORY_ITEMS = 15;
+const VIEWING_HISTORY_KEY = 'channelViewingHistory';
+
 export function StreamCard({ stream: channel }: StreamCardProps) {
+  const handleChannelClick = () => {
+    try {
+      let history: string[] = JSON.parse(localStorage.getItem(VIEWING_HISTORY_KEY) || '[]');
+      
+      // Remove o canal da lista se já existir para movê-lo para o topo (mais recente)
+      history = history.filter(title => title !== channel.title);
+      
+      // Adiciona o novo canal no início da lista
+      history.unshift(channel.title);
+      
+      // Mantém apenas os últimos MAX_HISTORY_ITEMS
+      if (history.length > MAX_HISTORY_ITEMS) {
+        history = history.slice(0, MAX_HISTORY_ITEMS);
+      }
+      
+      localStorage.setItem(VIEWING_HISTORY_KEY, JSON.stringify(history));
+    } catch (error) {
+      console.error("Erro ao salvar histórico de visualização:", error);
+      // Não impede a navegação se o localStorage falhar
+    }
+  };
+
   return (
-    <Link href={`/stream/${channel.id}`} className="group block">
+    <Link href={`/stream/${channel.id}`} className="group block" onClick={handleChannelClick}>
       <Card className="h-full overflow-hidden transition-all duration-300 ease-in-out hover:shadow-lg hover:border-accent">
         <CardHeader className="p-0">
           <div className="relative aspect-video w-full overflow-hidden">

@@ -1,45 +1,56 @@
+
 'use client';
 
-import { useState } from 'react';
-import { useForm, type SubmitHandler } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-import { personalizedRecommendations, type PersonalizedRecommendationsInput, type PersonalizedRecommendationsOutput } from '@/ai/flows/personalized-recommendations';
+import { useState, useEffect } from 'react';
+import { personalizedRecommendations, type PersonalizedRecommendationsOutput } from '@/ai/flows/personalized-recommendations';
 import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import { Loader2, Wand2, AlertTriangle, Tv2 } from 'lucide-react';
+import { Loader2, Wand2, AlertTriangle, Tv2, History } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { Badge } from '@/components/ui/badge';
 
-const recommendationSchema = z.object({
-  viewingHistory: z.string().min(10, 'Por favor, forneça algum histórico de canais assistidos (pelo menos 10 caracteres).').max(2000),
-  preferences: z.string().min(5, 'Por favor, descreva suas preferências (pelo menos 5 caracteres).').max(1000),
-});
-
-type RecommendationFormValues = z.infer<typeof recommendationSchema>;
+const VIEWING_HISTORY_KEY = 'channelViewingHistory';
 
 export default function RecommendationsPage() {
   const [recommendations, setRecommendations] = useState<PersonalizedRecommendationsOutput | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [currentHistory, setCurrentHistory] = useState<string[]>([]);
   const { toast } = useToast();
 
-  const form = useForm<RecommendationFormValues>({
-    resolver: zodResolver(recommendationSchema),
-    defaultValues: {
-      viewingHistory: '',
-      preferences: '',
-    },
-  });
+  useEffect(() => {
+    try {
+      const storedHistory = localStorage.getItem(VIEWING_HISTORY_KEY);
+      if (storedHistory) {
+        setCurrentHistory(JSON.parse(storedHistory));
+      }
+    } catch (e) {
+      console.error("Erro ao carregar histórico do localStorage:", e);
+      setCurrentHistory([]);
+    }
+  }, []);
 
-  const onSubmit: SubmitHandler<RecommendationFormValues> = async (data) => {
+  const handleGetRecommendations = async () => {
     setIsLoading(true);
     setError(null);
     setRecommendations(null);
 
+    let viewingHistoryString = "Nenhum histórico de visualização encontrado.";
+    if (currentHistory.length > 0) {
+      viewingHistoryString = currentHistory.join(', ');
+    } else {
+        toast({
+            title: "Histórico Vazio",
+            description: "Seu histórico de visualização está vazio. Assista alguns canais para obter recomendações.",
+            variant: "default",
+        });
+        setIsLoading(false);
+        return;
+    }
+
     try {
-      const result = await personalizedRecommendations(data);
+      const result = await personalizedRecommendations({ viewingHistory: viewingHistoryString });
       setRecommendations(result);
       toast({
         title: "Recomendações Geradas!",
@@ -66,69 +77,44 @@ export default function RecommendationsPage() {
           <Wand2 className="mx-auto h-12 w-12 text-primary mb-2" />
           <CardTitle className="text-3xl font-bold">Recomendações Personalizadas de Canais</CardTitle>
           <CardDescription className="text-md">
-            Diga-nos quais canais você assistiu e do que você gosta, e nossa IA sugerirá novos canais para você!
+            Com base no seu histórico de canais assistidos, nossa IA sugerirá novos canais para você!
           </CardDescription>
         </CardHeader>
-        <CardContent>
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-              <FormField
-                control={form.control}
-                name="viewingHistory"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-lg">Seu Histórico de Canais</FormLabel>
-                    <FormControl>
-                      <Textarea
-                        placeholder="Ex: Assisti 'Canal de Notícias 24h', 'Esportes Ao Vivo HD', e gostei de canais de culinária."
-                        className="min-h-[120px] resize-y"
-                        {...field}
-                        aria-describedby="viewingHistory-description"
-                      />
-                    </FormControl>
-                    <p id="viewingHistory-description" className="text-sm text-muted-foreground">
-                      Liste alguns canais, programas ou tipos de conteúdo que você assistiu recentemente.
-                    </p>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="preferences"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-lg">Suas Preferências</FormLabel>
-                    <FormControl>
-                      <Textarea
-                        placeholder="Ex: Prefiro canais de documentários sobre natureza, programas de entrevistas ou canais de música. Não gosto muito de canais de política."
-                        className="min-h-[100px] resize-y"
-                        {...field}
-                         aria-describedby="preferences-description"
-                      />
-                    </FormControl>
-                     <p id="preferences-description" className="text-sm text-muted-foreground">
-                      Que tipo de conteúdo você está procurando? Alguma categoria, tema ou apresentador específico que você gosta/não gosta?
-                    </p>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <Button type="submit" className="w-full bg-accent hover:bg-accent/90 text-accent-foreground text-lg py-3" disabled={isLoading}>
-                {isLoading ? (
-                  <>
-                    <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                    Gerando...
-                  </>
-                ) : (
-                  <>
-                    <Wand2 className="mr-2 h-5 w-5" />
-                    Obter Recomendações
-                  </>
-                )}
-              </Button>
-            </form>
-          </Form>
+        <CardContent className="space-y-6">
+          <div>
+            <h3 className="text-lg font-semibold mb-2 flex items-center">
+              <History className="mr-2 h-5 w-5" /> Seu Histórico de Visualização Atual:
+            </h3>
+            {currentHistory.length > 0 ? (
+              <ScrollArea className="h-32 w-full rounded-md border p-3 bg-muted/50">
+                <div className="flex flex-col space-y-1">
+                  {currentHistory.map((item, index) => (
+                    <Badge key={index} variant="secondary" className="text-sm py-1">
+                      {item}
+                    </Badge>
+                  ))}
+                </div>
+              </ScrollArea>
+            ) : (
+              <p className="text-sm text-muted-foreground">
+                Seu histórico de visualização está vazio. Assista alguns canais para que possamos gerar recomendações.
+              </p>
+            )}
+          </div>
+          
+          <Button onClick={handleGetRecommendations} className="w-full bg-accent hover:bg-accent/90 text-accent-foreground text-lg py-3" disabled={isLoading || currentHistory.length === 0}>
+            {isLoading ? (
+              <>
+                <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                Gerando...
+              </>
+            ) : (
+              <>
+                <Wand2 className="mr-2 h-5 w-5" />
+                Obter Recomendações
+              </>
+            )}
+          </Button>
         </CardContent>
       </Card>
 
@@ -158,7 +144,7 @@ export default function RecommendationsPage() {
           </CardContent>
           <CardFooter>
             <p className="text-xs text-muted-foreground">
-              Estas recomendações são geradas por IA. Divirta-se explorando!
+              Estas recomendações são geradas por IA com base no seu histórico. Divirta-se explorando!
             </p>
           </CardFooter>
         </Card>
