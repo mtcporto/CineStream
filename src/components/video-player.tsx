@@ -32,27 +32,24 @@ export function VideoPlayer({ streamTitle, streamUrl }: VideoPlayerProps) {
       return;
     }
 
-    setHlsError(null); // Reset error on new streamUrl or component mount/update
+    setHlsError(null); 
     const videoElement = videoRef.current;
 
-    // Clean up any existing HLS instance
     if (hlsInstanceRef.current) {
       console.log('Destroying previous HLS instance.');
       hlsInstanceRef.current.destroy();
       hlsInstanceRef.current = null;
     }
-    // Reset video element src and ensure it's paused
+    
     videoElement.pause();
-    videoElement.removeAttribute('src'); // Remove src to ensure HLS can attach
-    videoElement.load(); // Reset the media element to a clean state
+    videoElement.removeAttribute('src'); 
+    videoElement.load(); 
 
 
     if (streamUrl && streamUrl.endsWith('.m3u8')) {
       if (window.Hls && window.Hls.isSupported()) {
         console.log('HLS.js is supported and available. Attempting to play M3U8 stream:', streamUrl);
         const hls = new window.Hls({
-          // Optional: Add HLS.js configurations here
-          // Example: enableWorker: true, lowLatencyMode: true,
           // xhrSetup: function (xhr, url) {
           //   // You can add headers here if needed for specific streams
           // }
@@ -69,14 +66,21 @@ export function VideoPlayer({ streamTitle, streamUrl }: VideoPlayerProps) {
         });
 
         hls.on(window.Hls.Events.ERROR, function (event: any, data: any) {
+          // Log the raw event and data, then a stringified version of data for better debugging
           const stringifiedData = JSON.stringify(data, null, 2);
           const isFatal = data && data.fatal;
 
+          if (isFatal) {
+            console.error('HLS.js FATAL Error - Event:', event, 'Type:', data.type, 'Details:', data.details, 'URL:', data.url || 'N/A', '. Full data:', stringifiedData);
+          } else {
+            console.warn('HLS.js NON-FATAL Error - Event:', event, 'Type:', data.type, 'Details:', data.details, 'URL:', data.url || 'N/A', '. Full data:', stringifiedData);
+          }
+          
           let errorMessage = 'An HLS playback error occurred.';
           if (data && data.details) {
             errorMessage = `HLS Error: ${data.details}`;
           }
-          if (data && data.response && data.response.code && data.response.code !== 200 && data.response.code !== 0) { // 0 can be network error before HTTP status
+          if (data && data.response && data.response.code && data.response.code !== 200 && data.response.code !== 0) {
             errorMessage += ` (HTTP Status: ${data.response.code})`;
           }
           if (data && data.url) {
@@ -84,21 +88,14 @@ export function VideoPlayer({ streamTitle, streamUrl }: VideoPlayerProps) {
           }
 
           if (isFatal) {
-            console.error(
-              `HLS.js FATAL Error - Event: ${event}, Type: ${data.type}, Details: ${data.details}, URL: ${data.url || 'N/A'}. Full data: ${stringifiedData}`
-            );
             setHlsError(errorMessage);
             
             switch (data.type) {
               case window.Hls.ErrorTypes.NETWORK_ERROR:
-                // Error message already set. HLS.js might retry based on its config.
                 break;
               case window.Hls.ErrorTypes.MEDIA_ERROR:
-                // For fatal media errors, HLS.js might not recover.
-                // Instance might be destroyed by HLS.js itself or needs to be.
                 break;
               default:
-                // For other unhandled fatal errors, destroying the instance is a safe bet.
                 if (hlsInstanceRef.current) {
                   console.log(`Destroying HLS instance due to unhandled fatal error: ${data.type}`);
                   hlsInstanceRef.current.destroy();
@@ -106,13 +103,6 @@ export function VideoPlayer({ streamTitle, streamUrl }: VideoPlayerProps) {
                 }
                 break;
             }
-          } else {
-            // Non-fatal errors
-            console.warn(
-              `HLS.js NON-FATAL Error - Event: ${event}, Type: ${data.type}, Details: ${data.details}, URL: ${data.url || 'N/A'}. Full data: ${stringifiedData}`
-            );
-            // HLS.js often attempts to recover from non-fatal errors.
-            // No UI update via setHlsError for non-fatal errors by default.
           }
         });
       } else if (videoElement.canPlayType('application/vnd.apple.mpegurl')) {
@@ -141,7 +131,6 @@ export function VideoPlayer({ streamTitle, streamUrl }: VideoPlayerProps) {
          setHlsError(`Could not play video: ${error.message}`);
       });
     } else if (streamUrl) {
-      // Stream URL is present but not m3u8 and not http/https (e.g. placeholder)
       // UI will show an error message for this case based on the rendering logic below
     }
 
@@ -154,8 +143,8 @@ export function VideoPlayer({ streamTitle, streamUrl }: VideoPlayerProps) {
       if (videoElement) {
         videoElement.pause();
         videoElement.removeAttribute('src');
-        if (videoElement.load) { // Check if load exists, it might not on all elements or states
-          videoElement.load(); // Reset video element state
+        if (videoElement.load) { 
+          videoElement.load(); 
         }
       }
     };
@@ -178,13 +167,13 @@ export function VideoPlayer({ streamTitle, streamUrl }: VideoPlayerProps) {
                 <p className="text-lg font-medium">Carregando Player...</p>
               </div>
             </div>
-          ) : hlsError ? ( // This state is now only set for FATAL HLS errors or other critical player errors
+          ) : hlsError ? ( 
             <div className="text-center p-4">
               <AlertTriangle className="h-16 w-16 text-destructive mx-auto mb-4" />
               <p className="text-lg font-medium">Erro ao Carregar o Stream</p>
               <p className="text-sm text-muted-foreground whitespace-pre-wrap">{hlsError}</p>
             </div>
-          ) : !(streamUrl && (streamUrl.startsWith('http://') || streamUrl.startsWith('https'))) ? (
+          ) : !(streamUrl && (streamUrl.startsWith('http://') || streamUrl.startsWith('https://'))) ? (
             <div className="text-center p-4">
               <AlertTriangle className="h-16 w-16 text-destructive mx-auto mb-4" />
               <p className="text-lg font-medium">URL de Stream Inválida ou Ausente</p>
@@ -199,21 +188,7 @@ export function VideoPlayer({ streamTitle, streamUrl }: VideoPlayerProps) {
             </video>
           )}
         </div>
-        <div className="mt-4 p-3 border rounded-md bg-card text-sm space-y-2">
-          <div className="flex items-start gap-2">
-            <Info className="h-5 w-5 text-accent shrink-0 mt-0.5" />
-            <div>
-              <p className="font-semibold">Nota do Desenvolvedor:</p>
-              <p className="text-muted-foreground text-xs">
-                Player tentando reproduzir: <code className="bg-muted px-1 py-0.5 rounded text-xs">{streamUrl || 'N/A'}</code>.
-              </p>
-              <p className="text-muted-foreground text-xs mt-1">
-                Para streams HLS (.m3u8), <code className="bg-muted px-1 py-0.5 rounded text-xs">hls.js</code> é usado em navegadores como Chrome/Firefox. Safari tem suporte nativo.
-                Outros formatos podem tocar diretamente. Verifique o console para logs detalhados do HLS.js.
-              </p>
-            </div>
-          </div>
-        </div>
+        {/* Developer Note removed */}
       </CardContent>
     </Card>
   );

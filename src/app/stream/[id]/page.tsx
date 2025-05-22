@@ -58,14 +58,14 @@ export default async function ChannelDetailsPage({ params }: ChannelDetailsPageP
               src={channel.thumbnailUrl}
               alt={`Logo do canal ${channel.title}`}
               fill
-              sizes="(max-width: 768px) 100vw, 33vw" // Adjusted sizes
+              sizes="(max-width: 768px) 100vw, 33vw" 
               className="rounded-l-lg object-cover"
               data-ai-hint={channel.dataAiHint || "tv channel logo"}
             />
           </div>
           <div className="md:w-2/3">
             <CardHeader>
-              <CardTitle className="text-3xl font-bold text-primary flex items-center gap-2">
+              <CardTitle className="tracking-tight text-3xl font-bold text-foreground flex items-center gap-2"> {/* Changed text-primary to text-foreground */}
                 <Tv2 className="h-8 w-8" /> {channel.title}
               </CardTitle>
               <CardDescription className="text-base">{channel.description}</CardDescription>
@@ -118,4 +118,3 @@ export default async function ChannelDetailsPage({ params }: ChannelDetailsPageP
     </div>
   );
 }
-
