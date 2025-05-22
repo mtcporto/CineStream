@@ -37,18 +37,23 @@ export function VideoPlayer({ streamTitle, streamUrl }: VideoPlayerProps) {
 
     // Clean up any existing HLS instance
     if (hlsInstanceRef.current) {
+      console.log('Destroying previous HLS instance.');
       hlsInstanceRef.current.destroy();
       hlsInstanceRef.current = null;
     }
-    // Reset video element src
-    videoElement.src = '';
-    videoElement.load();
+    // Reset video element src and ensure it's paused
+    videoElement.pause();
+    videoElement.removeAttribute('src'); // Remove src to ensure HLS can attach
+    videoElement.load(); // Reset the media element to a clean state
 
 
     if (streamUrl && streamUrl.endsWith('.m3u8')) {
       if (window.Hls && window.Hls.isSupported()) {
         console.log('HLS.js is supported and available. Attempting to play M3U8 stream:', streamUrl);
-        const hls = new window.Hls();
+        const hls = new window.Hls({
+          // Optional: Add HLS.js configurations here if needed
+          // Example: enableWorker: true, lowLatencyMode: true, etc.
+        });
         hlsInstanceRef.current = hls;
         hls.loadSource(streamUrl);
         hls.attachMedia(videoElement);
@@ -60,7 +65,8 @@ export function VideoPlayer({ streamTitle, streamUrl }: VideoPlayerProps) {
           });
         });
         hls.on(window.Hls.Events.ERROR, function (event: any, data: any) {
-          console.error('HLS.js ERROR event object:', event, 'HLS.js ERROR data object:', data);
+          // Log the raw event and data, then a stringified version of data for better debugging
+          console.error('HLS.js ERROR event:', event, 'HLS.js ERROR data (raw):', data, 'HLS.js ERROR data (stringified):', JSON.stringify(data, null, 2));
           
           let errorMessage = 'An HLS playback error occurred.';
           if (data && data.details) {
@@ -75,7 +81,7 @@ export function VideoPlayer({ streamTitle, streamUrl }: VideoPlayerProps) {
 
 
           if (data && data.fatal) {
-            console.error(`HLS.js Fatal Error - Type: ${data.type}, Details: ${data.details}. Full data:`, JSON.stringify(data, null, 2));
+            console.error(`HLS.js Fatal Error - Type: ${data.type}, Details: ${data.details}. Full data (again for emphasis):`, JSON.stringify(data, null, 2));
             setHlsError(errorMessage);
             switch (data.type) {
               case window.Hls.ErrorTypes.NETWORK_ERROR:
@@ -83,8 +89,8 @@ export function VideoPlayer({ streamTitle, streamUrl }: VideoPlayerProps) {
                 break;
               case window.Hls.ErrorTypes.MEDIA_ERROR:
                 if (hlsInstanceRef.current) {
-                  // Attempt to recover media error
-                  // hlsInstanceRef.current.recoverMediaError(); // This can sometimes create loops, use with caution or specific strategies
+                  // Attempt to recover media error - use with caution
+                  // hlsInstanceRef.current.recoverMediaError(); 
                 }
                 break;
               default:
@@ -96,16 +102,22 @@ export function VideoPlayer({ streamTitle, streamUrl }: VideoPlayerProps) {
                 break;
             }
           } else {
-            console.warn('HLS.js non-fatal error:', data);
-            // Optionally set a non-fatal error message if needed, or just log
+            console.warn('HLS.js non-fatal error. Full data (stringified):', JSON.stringify(data, null, 2));
+            // Optionally set a non-fatal error message if needed for UI, or just log
           }
         });
       } else if (videoElement.canPlayType('application/vnd.apple.mpegurl')) {
         console.log('HLS.js not found/supported, but native HLS playback might be available (e.g., Safari). Using native playback for:', streamUrl);
         videoElement.src = streamUrl;
-        videoElement.play().catch(error => {
-          console.error('Error attempting to play video natively:', error);
-          setHlsError(`Could not start native playback: ${error.message}`);
+        videoElement.addEventListener('loadedmetadata', () => {
+          videoElement.play().catch(error => {
+            console.error('Error attempting to play video natively:', error);
+            setHlsError(`Could not start native playback: ${error.message}`);
+          });
+        });
+        videoElement.addEventListener('error', (e) => {
+            console.error('Native video element error:', e);
+            setHlsError(`Native video playback error for ${streamUrl}`);
         });
       } else {
         const message = 'HLS.js is not supported and native HLS playback is not available. M3U8 stream may not play.';
@@ -133,7 +145,7 @@ export function VideoPlayer({ streamTitle, streamUrl }: VideoPlayerProps) {
       if (videoElement) {
         videoElement.pause();
         videoElement.removeAttribute('src');
-        videoElement.load();
+        videoElement.load(); // Reset video element state
       }
     };
   }, [streamUrl, isClient]);
@@ -195,3 +207,4 @@ export function VideoPlayer({ streamTitle, streamUrl }: VideoPlayerProps) {
     </Card>
   );
 }
+
