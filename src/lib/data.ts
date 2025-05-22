@@ -14,39 +14,26 @@ export const mockStreams: Stream[] = [
     dataAiHint: 'news live',
   },
   {
-    id: '4', // Mantendo o ID para consistência se já houver links ou favoritos
+    id: '4',
     title: 'Cinema Livre: Sintel',
     description: 'Assista ao filme de animação open-source "Sintel", uma produção da Blender Foundation.',
     genre: 'Filmes',
-    language: 'Inglês',
+    language: 'Inglês', // Sintel is mostly without dialogue, but often categorized as English for its origin.
     quality: 'Adaptável',
     thumbnailUrl: 'https://placehold.co/400x225.png',
     streamUrl: 'https://bitmovin-a.akamaihd.net/content/sintel/hls/playlist.m3u8',
     dataAiHint: 'animation movie',
   },
-  {
-    id: '10', // Novo ID para o novo canal
-    title: 'NASA TV (Public)',
-    description: 'Transmissão ao vivo da NASA com cobertura de missões, eventos e documentários espaciais.',
-    genre: 'Educacional',
-    language: 'Inglês',
-    quality: 'Adaptável',
-    thumbnailUrl: 'https://placehold.co/400x225.png',
-    streamUrl: 'https://nasa-i.akamaihd.net/hls/live/253565/NASA-NTV1-Public/master.m3u8',
-    dataAiHint: 'nasa space',
-  },
-  // Adicione mais canais com streams públicos/abertos aqui, se encontrados.
-  // Exemplo de outro filme open-source (Big Buck Bunny), se encontrarmos um HLS estável:
   // {
-  //   id: '11',
-  //   title: 'Cinema Livre: Big Buck Bunny',
-  //   description: 'Divirta-se com "Big Buck Bunny", outro clássico da Blender Foundation.',
-  //   genre: 'Animação',
-  //   language: 'Sem diálogo',
+  //   id: '10', // Mantendo o ID para consistência se já houver links ou favoritos, mas comentando
+  //   title: 'NASA TV (Public)',
+  //   description: 'Transmissão ao vivo da NASA com cobertura de missões, eventos e documentários espaciais.',
+  //   genre: 'Educacional',
+  //   language: 'Inglês',
   //   quality: 'Adaptável',
   //   thumbnailUrl: 'https://placehold.co/400x225.png',
-  //   streamUrl: 'URL_HLS_BIG_BUCK_BUNNY_SE_ENCONTRADA', // Ex: https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8 (Nota: este é um stream de teste genérico da Mux, pode não ser o BBB)
-  //   dataAiHint: 'bunny animation',
+  //   streamUrl: 'https://nasa-i.akamaihd.net/hls/live/253565/NASA-NTV1-Public/master.m3u8', // Este stream estava retornando 403 Forbidden
+  //   dataAiHint: 'nasa space',
   // },
 ];
 
