@@ -9,12 +9,12 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import { Loader2, Wand2, AlertTriangle } from 'lucide-react';
+import { Loader2, Wand2, AlertTriangle, Tv2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 const recommendationSchema = z.object({
-  viewingHistory: z.string().min(10, 'Please provide some viewing history (at least 10 characters).').max(2000),
-  preferences: z.string().min(5, 'Please describe your preferences (at least 5 characters).').max(1000),
+  viewingHistory: z.string().min(10, 'Por favor, forneça algum histórico de canais assistidos (pelo menos 10 caracteres).').max(2000),
+  preferences: z.string().min(5, 'Por favor, descreva suas preferências (pelo menos 5 caracteres).').max(1000),
 });
 
 type RecommendationFormValues = z.infer<typeof recommendationSchema>;
@@ -42,16 +42,16 @@ export default function RecommendationsPage() {
       const result = await personalizedRecommendations(data);
       setRecommendations(result);
       toast({
-        title: "Recommendations Generated!",
-        description: "We've found some streams you might like.",
+        title: "Recomendações Geradas!",
+        description: "Encontramos alguns canais que você pode gostar.",
       });
     } catch (e) {
-      console.error("Error fetching recommendations:", e);
-      const errorMessage = e instanceof Error ? e.message : "An unknown error occurred.";
-      setError(`Failed to get recommendations: ${errorMessage}`);
+      console.error("Erro ao buscar recomendações:", e);
+      const errorMessage = e instanceof Error ? e.message : "Ocorreu um erro desconhecido.";
+      setError(`Falha ao obter recomendações: ${errorMessage}`);
       toast({
-        title: "Error",
-        description: "Could not generate recommendations at this time.",
+        title: "Erro",
+        description: "Não foi possível gerar recomendações no momento.",
         variant: "destructive",
       });
     } finally {
@@ -64,9 +64,9 @@ export default function RecommendationsPage() {
       <Card className="shadow-xl">
         <CardHeader className="text-center">
           <Wand2 className="mx-auto h-12 w-12 text-primary mb-2" />
-          <CardTitle className="text-3xl font-bold">Personalized Recommendations</CardTitle>
+          <CardTitle className="text-3xl font-bold">Recomendações Personalizadas de Canais</CardTitle>
           <CardDescription className="text-md">
-            Tell us what you've watched and what you like, and our AI will suggest streams for you!
+            Diga-nos quais canais você assistiu e do que você gosta, e nossa IA sugerirá novos canais para você!
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -77,17 +77,17 @@ export default function RecommendationsPage() {
                 name="viewingHistory"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-lg">Your Viewing History</FormLabel>
+                    <FormLabel className="text-lg">Seu Histórico de Canais</FormLabel>
                     <FormControl>
                       <Textarea
-                        placeholder="e.g., Watched 'Action Packed Adventures', 'Sci-Fi Universe', and enjoyed comedies like 'Comedy Central'."
+                        placeholder="Ex: Assisti 'Canal de Notícias 24h', 'Esportes Ao Vivo HD', e gostei de canais de culinária."
                         className="min-h-[120px] resize-y"
                         {...field}
                         aria-describedby="viewingHistory-description"
                       />
                     </FormControl>
                     <p id="viewingHistory-description" className="text-sm text-muted-foreground">
-                      List some movies, shows, or genres you've watched recently.
+                      Liste alguns canais, programas ou tipos de conteúdo que você assistiu recentemente.
                     </p>
                     <FormMessage />
                   </FormItem>
@@ -98,17 +98,17 @@ export default function RecommendationsPage() {
                 name="preferences"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-lg">Your Preferences</FormLabel>
+                    <FormLabel className="text-lg">Suas Preferências</FormLabel>
                     <FormControl>
                       <Textarea
-                        placeholder="e.g., I prefer fast-paced action movies, documentaries about space, or light-hearted comedies. Not a fan of horror."
+                        placeholder="Ex: Prefiro canais de documentários sobre natureza, programas de entrevistas ou canais de música. Não gosto muito de canais de política."
                         className="min-h-[100px] resize-y"
                         {...field}
                          aria-describedby="preferences-description"
                       />
                     </FormControl>
                      <p id="preferences-description" className="text-sm text-muted-foreground">
-                      What kind of content are you in the mood for? Any specific genres, themes, or actors you like/dislike?
+                      Que tipo de conteúdo você está procurando? Alguma categoria, tema ou apresentador específico que você gosta/não gosta?
                     </p>
                     <FormMessage />
                   </FormItem>
@@ -118,12 +118,12 @@ export default function RecommendationsPage() {
                 {isLoading ? (
                   <>
                     <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                    Generating...
+                    Gerando...
                   </>
                 ) : (
                   <>
                     <Wand2 className="mr-2 h-5 w-5" />
-                    Get Recommendations
+                    Obter Recomendações
                   </>
                 )}
               </Button>
@@ -137,7 +137,7 @@ export default function RecommendationsPage() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-destructive">
               <AlertTriangle className="h-6 w-6" />
-              Something Went Wrong
+              Algo Deu Errado
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -149,7 +149,7 @@ export default function RecommendationsPage() {
       {recommendations && !error && (
         <Card className="mt-8">
           <CardHeader>
-            <CardTitle className="text-2xl">Here are your recommendations:</CardTitle>
+            <CardTitle className="text-2xl flex items-center gap-2"> <Tv2 className="h-7 w-7" />Aqui estão suas recomendações:</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="prose prose-sm dark:prose-invert max-w-none whitespace-pre-wrap rounded-md border bg-muted/50 p-4 font-mono text-sm">
@@ -158,7 +158,7 @@ export default function RecommendationsPage() {
           </CardContent>
           <CardFooter>
             <p className="text-xs text-muted-foreground">
-              These recommendations are AI-generated. Enjoy exploring!
+              Estas recomendações são geradas por IA. Divirta-se explorando!
             </p>
           </CardFooter>
         </Card>

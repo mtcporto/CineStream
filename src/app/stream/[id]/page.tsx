@@ -1,39 +1,39 @@
 import { getStreamById } from '@/lib/data';
-import type { Stream } from '@/lib/types';
+import type { Stream as Channel } from '@/lib/types'; // Using Stream as Channel type
 import { VideoPlayer } from '@/components/video-player';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
-import { AlertCircle, Tv, CalendarDays, Globe, Film, ShieldCheck } from 'lucide-react';
+import { AlertCircle, Tv, CalendarDays, Globe, Film, ShieldCheck, Tv2, Info } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 
-interface StreamDetailsPageProps {
+interface ChannelDetailsPageProps {
   params: { id: string };
 }
 
-export async function generateMetadata({ params }: StreamDetailsPageProps) {
-  const stream = getStreamById(params.id);
-  if (!stream) {
-    return { title: 'Stream Not Found' };
+export async function generateMetadata({ params }: ChannelDetailsPageProps) {
+  const channel = getStreamById(params.id);
+  if (!channel) {
+    return { title: 'Canal Não Encontrado' };
   }
-  return { title: `${stream.title} - CineStream Navigator` };
+  return { title: `${channel.title} - Canal Play` };
 }
 
-export default function StreamDetailsPage({ params }: StreamDetailsPageProps) {
-  const stream = getStreamById(params.id);
+export default function ChannelDetailsPage({ params }: ChannelDetailsPageProps) {
+  const channel = getStreamById(params.id);
 
-  if (!stream) {
+  if (!channel) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[calc(100vh-10rem)] text-center">
         <AlertCircle className="h-16 w-16 text-destructive mb-4" />
-        <h1 className="text-3xl font-bold mb-2">Stream Not Found</h1>
+        <h1 className="text-3xl font-bold mb-2">Canal Não Encontrado</h1>
         <p className="text-muted-foreground mb-6">
-          The stream you are looking for does not exist or has been removed.
+          O canal que você está procurando não existe ou foi removido.
         </p>
         <Button asChild>
-          <Link href="/">Go Back to Streams</Link>
+          <Link href="/">Voltar para Todos os Canais</Link>
         </Button>
       </div>
     );
@@ -42,64 +42,67 @@ export default function StreamDetailsPage({ params }: StreamDetailsPageProps) {
   return (
     <div className="container mx-auto max-w-4xl py-8">
       <div className="mb-8">
-        <VideoPlayer streamTitle={stream.title} streamUrl={stream.streamUrl} />
+        {/* Pass channel details to VideoPlayer */}
+        <VideoPlayer streamTitle={channel.title} streamUrl={channel.streamUrl} />
       </div>
 
       <Card className="overflow-hidden shadow-lg">
         <div className="md:flex">
           <div className="md:w-1/3 relative hidden md:block">
             <Image
-              src={stream.thumbnailUrl}
-              alt={`Thumbnail for ${stream.title}`}
+              src={channel.thumbnailUrl}
+              alt={`Logo do canal ${channel.title}`}
               layout="fill"
               objectFit="cover"
               className="rounded-l-lg"
-              data-ai-hint={stream.dataAiHint || "movie poster"}
+              data-ai-hint={channel.dataAiHint || "tv channel logo"}
             />
           </div>
           <div className="md:w-2/3">
             <CardHeader>
-              <CardTitle className="text-3xl font-bold text-primary">{stream.title}</CardTitle>
-              <CardDescription className="text-base">{stream.description}</CardDescription>
+              <CardTitle className="text-3xl font-bold text-primary flex items-center gap-2">
+                <Tv2 className="h-8 w-8" /> {channel.title}
+              </CardTitle>
+              <CardDescription className="text-base">{channel.description}</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <Separator />
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div className="flex items-center gap-2">
                   <Film className="h-5 w-5 text-accent" />
-                  <span className="font-semibold">Genre:</span>
-                  <Badge variant="secondary">{stream.genre}</Badge>
+                  <span className="font-semibold">Categoria:</span>
+                  <Badge variant="secondary">{channel.genre}</Badge>
                 </div>
                 <div className="flex items-center gap-2">
                   <Globe className="h-5 w-5 text-accent" />
-                  <span className="font-semibold">Language:</span>
-                  <Badge variant="outline">{stream.language}</Badge>
+                  <span className="font-semibold">Idioma:</span>
+                  <Badge variant="outline">{channel.language}</Badge>
                 </div>
                 <div className="flex items-center gap-2">
                   <ShieldCheck className="h-5 w-5 text-accent" />
-                  <span className="font-semibold">Quality:</span>
-                  <Badge variant="outline">{stream.quality}</Badge>
+                  <span className="font-semibold">Qualidade:</span>
+                  <Badge variant="outline">{channel.quality}</Badge>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Tv className="h-5 w-5 text-accent" />
-                  <span className="font-semibold">Channel ID:</span>
-                  <span className="text-sm">{stream.id}</span>
+                  <Info className="h-5 w-5 text-accent" />
+                  <span className="font-semibold">ID do Canal:</span>
+                  <span className="text-sm">{channel.id}</span>
                 </div>
               </div>
               <Separator />
               <div>
                 <h3 className="text-lg font-semibold mb-2 flex items-center gap-2">
                   <CalendarDays className="h-5 w-5 text-accent" />
-                  Additional Information
+                  Programação / Sobre o Canal
                 </h3>
                 <p className="text-sm text-muted-foreground">
-                  This section can contain more details about the stream, such as release date, cast, director, or any other relevant metadata. Currently, this is placeholder text.
+                  Esta seção pode conter detalhes sobre a programação do canal, horários ou outras informações relevantes. Atualmente, este é um texto de exemplo.
                 </p>
               </div>
               <div className="pt-4">
                 <Button asChild variant="outline" className="w-full sm:w-auto">
                   <Link href="/">
-                    <Tv className="mr-2 h-4 w-4" /> Back to All Streams
+                    <Tv2 className="mr-2 h-4 w-4" /> Voltar para Todos os Canais
                   </Link>
                 </Button>
               </div>

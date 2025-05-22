@@ -3,10 +3,10 @@
 import { useState, useMemo, useEffect } from 'react';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { StreamCard } from '@/components/stream-card';
+import { StreamCard } from '@/components/stream-card'; // Conceptually, this card now shows a TV Channel
 import { mockStreams, genres as allGenres, languages as allLanguages, qualities as allQualities } from '@/lib/data';
-import type { Stream } from '@/lib/types';
-import { Search, SlidersHorizontal, ArrowDownUp } from 'lucide-react';
+import type { Stream as Channel } from '@/lib/types'; // Using Stream as Channel type
+import { Search, SlidersHorizontal, ArrowDownUp, Tv2 } from 'lucide-react';
 import { Label } from '@/components/ui/label';
 
 export default function HomePage() {
@@ -18,30 +18,30 @@ export default function HomePage() {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setMounted(true); // Avoid hydration mismatch by ensuring client-side only rendering for initial random sort or dynamic content
+    setMounted(true);
   }, []);
 
-  const filteredAndSortedStreams = useMemo(() => {
-    let streams: Stream[] = [...mockStreams];
+  const filteredAndSortedChannels = useMemo(() => {
+    let channels: Channel[] = [...mockStreams];
 
     if (searchTerm) {
-      streams = streams.filter(stream =>
-        stream.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        stream.description.toLowerCase().includes(searchTerm.toLowerCase())
+      channels = channels.filter(channel =>
+        channel.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        channel.description.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
 
     if (selectedGenre !== 'all') {
-      streams = streams.filter(stream => stream.genre === selectedGenre);
+      channels = channels.filter(channel => channel.genre === selectedGenre);
     }
     if (selectedLanguage !== 'all') {
-      streams = streams.filter(stream => stream.language === selectedLanguage);
+      channels = channels.filter(channel => channel.language === selectedLanguage);
     }
     if (selectedQuality !== 'all') {
-      streams = streams.filter(stream => stream.quality === selectedQuality);
+      channels = channels.filter(channel => channel.quality === selectedQuality);
     }
 
-    streams.sort((a, b) => {
+    channels.sort((a, b) => {
       switch (sortBy) {
         case 'title_asc':
           return a.title.localeCompare(b.title);
@@ -56,11 +56,10 @@ export default function HomePage() {
       }
     });
 
-    return streams;
+    return channels;
   }, [searchTerm, selectedGenre, selectedLanguage, selectedQuality, sortBy]);
 
   if (!mounted) {
-    // Optional: render a loading state or null to prevent hydration errors from dynamic filtering/sorting on first render
     return (
       <div className="space-y-6">
         <div className="animate-pulse rounded-md bg-muted h-10 w-full"></div>
@@ -76,7 +75,7 @@ export default function HomePage() {
   return (
     <div className="container mx-auto py-6">
       <h1 className="mb-8 text-3xl font-bold tracking-tight text-center sm:text-4xl">
-        Discover Your Next Favorite Stream
+        Descubra Seu Próximo Canal Favorito
       </h1>
 
       <div className="mb-8 space-y-4 rounded-lg border bg-card p-4 shadow-sm md:p-6">
@@ -84,25 +83,25 @@ export default function HomePage() {
           <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
           <Input
             type="search"
-            placeholder="Search streams by title or keyword..."
+            placeholder="Buscar canais por nome, programa ou palavra-chave..."
             className="w-full rounded-md bg-background py-3 pl-10 text-base focus:ring-accent"
             value={searchTerm}
             onChange={e => setSearchTerm(e.target.value)}
-            aria-label="Search streams"
+            aria-label="Buscar canais"
           />
         </div>
         
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
           <div>
             <Label htmlFor="genre-filter" className="mb-1.5 flex items-center text-sm font-medium text-muted-foreground">
-              <SlidersHorizontal className="mr-2 h-4 w-4" /> Genre
+              <SlidersHorizontal className="mr-2 h-4 w-4" /> Categoria
             </Label>
             <Select value={selectedGenre} onValueChange={setSelectedGenre}>
-              <SelectTrigger id="genre-filter" className="w-full" aria-label="Filter by genre">
-                <SelectValue placeholder="Filter by Genre" />
+              <SelectTrigger id="genre-filter" className="w-full" aria-label="Filtrar por categoria">
+                <SelectValue placeholder="Filtrar por Categoria" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">All Genres</SelectItem>
+                <SelectItem value="all">Todas as Categorias</SelectItem>
                 {allGenres.map(genre => (
                   <SelectItem key={genre} value={genre}>{genre}</SelectItem>
                 ))}
@@ -112,14 +111,14 @@ export default function HomePage() {
 
           <div>
             <Label htmlFor="language-filter" className="mb-1.5 flex items-center text-sm font-medium text-muted-foreground">
-               <SlidersHorizontal className="mr-2 h-4 w-4" /> Language
+               <SlidersHorizontal className="mr-2 h-4 w-4" /> Idioma
             </Label>
             <Select value={selectedLanguage} onValueChange={setSelectedLanguage}>
-              <SelectTrigger id="language-filter" className="w-full" aria-label="Filter by language">
-                <SelectValue placeholder="Filter by Language" />
+              <SelectTrigger id="language-filter" className="w-full" aria-label="Filtrar por idioma">
+                <SelectValue placeholder="Filtrar por Idioma" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">All Languages</SelectItem>
+                <SelectItem value="all">Todos os Idiomas</SelectItem>
                 {allLanguages.map(lang => (
                   <SelectItem key={lang} value={lang}>{lang}</SelectItem>
                 ))}
@@ -129,14 +128,14 @@ export default function HomePage() {
 
           <div>
             <Label htmlFor="quality-filter" className="mb-1.5 flex items-center text-sm font-medium text-muted-foreground">
-               <SlidersHorizontal className="mr-2 h-4 w-4" /> Quality
+               <SlidersHorizontal className="mr-2 h-4 w-4" /> Qualidade
             </Label>
             <Select value={selectedQuality} onValueChange={setSelectedQuality}>
-              <SelectTrigger id="quality-filter" className="w-full" aria-label="Filter by quality">
-                <SelectValue placeholder="Filter by Quality" />
+              <SelectTrigger id="quality-filter" className="w-full" aria-label="Filtrar por qualidade">
+                <SelectValue placeholder="Filtrar por Qualidade" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">All Qualities</SelectItem>
+                <SelectItem value="all">Todas as Qualidades</SelectItem>
                 {allQualities.map(qual => (
                   <SelectItem key={qual} value={qual}>{qual}</SelectItem>
                 ))}
@@ -146,34 +145,34 @@ export default function HomePage() {
           
           <div>
             <Label htmlFor="sort-by" className="mb-1.5 flex items-center text-sm font-medium text-muted-foreground">
-              <ArrowDownUp className="mr-2 h-4 w-4" /> Sort By
+              <ArrowDownUp className="mr-2 h-4 w-4" /> Ordenar Por
             </Label>
             <Select value={sortBy} onValueChange={setSortBy}>
-              <SelectTrigger id="sort-by" className="w-full" aria-label="Sort streams">
-                <SelectValue placeholder="Sort by" />
+              <SelectTrigger id="sort-by" className="w-full" aria-label="Ordenar canais">
+                <SelectValue placeholder="Ordenar por" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="title_asc">Title (A-Z)</SelectItem>
-                <SelectItem value="title_desc">Title (Z-A)</SelectItem>
-                <SelectItem value="genre_asc">Genre (A-Z)</SelectItem>
-                <SelectItem value="genre_desc">Genre (Z-A)</SelectItem>
+                <SelectItem value="title_asc">Título (A-Z)</SelectItem>
+                <SelectItem value="title_desc">Título (Z-A)</SelectItem>
+                <SelectItem value="genre_asc">Categoria (A-Z)</SelectItem>
+                <SelectItem value="genre_desc">Categoria (Z-A)</SelectItem>
               </SelectContent>
             </Select>
           </div>
         </div>
       </div>
 
-      {filteredAndSortedStreams.length > 0 ? (
+      {filteredAndSortedChannels.length > 0 ? (
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-          {filteredAndSortedStreams.map(stream => (
-            <StreamCard key={stream.id} stream={stream} />
+          {filteredAndSortedChannels.map(channel => (
+            <StreamCard key={channel.id} stream={channel} /> // Passing channel as stream prop
           ))}
         </div>
       ) : (
         <div className="py-12 text-center">
-          <Search className="mx-auto h-12 w-12 text-muted-foreground" />
-          <p className="mt-4 text-xl font-semibold">No Streams Found</p>
-          <p className="text-muted-foreground">Try adjusting your search or filters.</p>
+          <Tv2 className="mx-auto h-12 w-12 text-muted-foreground" />
+          <p className="mt-4 text-xl font-semibold">Nenhum Canal Encontrado</p>
+          <p className="text-muted-foreground">Tente ajustar sua busca ou filtros.</p>
         </div>
       )}
     </div>

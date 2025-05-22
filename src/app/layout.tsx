@@ -15,7 +15,7 @@ import { AppLogo } from '@/components/app-logo';
 import { AppHeader } from '@/components/app-header';
 import { Toaster } from '@/components/ui/toaster';
 import Link from 'next/link';
-import { Home, ListVideo, Film, Settings } from 'lucide-react';
+import { Home, ListVideo, Film, Settings, Tv2 } from 'lucide-react';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -28,8 +28,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'CineStream Navigator',
-  description: 'Your ultimate guide to online CSN streams.',
+  title: 'Canal Play - Sua TV Ao Vivo Online',
+  description: 'Seu guia definitivo para canais de TV abertos online.',
 };
 
 export default function RootLayout({
@@ -46,25 +46,25 @@ export default function RootLayout({
               <Link href="/" className="flex items-center gap-2">
                 <AppLogo className="h-8 w-8 text-primary" />
                 <span className="text-lg font-semibold group-data-[collapsible=icon]:hidden">
-                  CineStream
+                  Canal Play
                 </span>
               </Link>
             </SidebarHeader>
             <SidebarContent>
               <SidebarMenu>
                 <SidebarMenuItem>
-                  <SidebarMenuButton asChild tooltip="Browse Streams">
+                  <SidebarMenuButton asChild tooltip="Navegar Canais">
                     <Link href="/">
-                      <Home />
-                      <span>Browse Streams</span>
+                      <Tv2 />
+                      <span>Navegar Canais</span>
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
                 <SidebarMenuItem>
-                  <SidebarMenuButton asChild tooltip="Recommendations">
+                  <SidebarMenuButton asChild tooltip="Recomendações">
                     <Link href="/recommendations">
                       <Film />
-                      <span>Recommendations</span>
+                      <span>Recomendações</span>
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>

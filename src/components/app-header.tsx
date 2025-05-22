@@ -18,7 +18,7 @@ export function AppHeader() {
         </div>
         <Link href="/" className="flex items-center gap-2 text-lg font-semibold">
           <AppLogo className="h-6 w-6 text-primary" />
-          <span className="font-bold">CineStream Navigator</span>
+          <span className="font-bold">Canal Play</span>
         </Link>
       </div>
       {/* Future additions: User Profile / Settings Dropdown */}
