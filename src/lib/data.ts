@@ -16,7 +16,7 @@ export const mockStreams: Stream[] = [
   {
     id: '2',
     title: 'Esportes Ao Vivo HD (Teste HLS Apple)',
-    description: 'Transmissão ao vivo dos principais eventos esportivos, análises e debates.',
+    description: 'Transmissão ao vivo dos principais eventos esportivos, análises e debates. Usando stream de teste da Apple.',
     genre: 'Esportes',
     language: 'Português',
     quality: 'Adaptável',
@@ -32,19 +32,19 @@ export const mockStreams: Stream[] = [
     language: 'Português',
     quality: '720p',
     thumbnailUrl: 'https://placehold.co/400x225.png',
-    streamUrl: 'placeholder_tv_channel_url_3', 
+    streamUrl: 'placeholder_tv_channel_url_3',
     dataAiHint: 'cooking food',
   },
   {
     id: '4',
-    title: 'Sessão de Filmes Clássicos (Teste HLS Sintel)',
-    description: 'Relembre os grandes clássicos do cinema mundial, dublados e legendados.',
+    title: 'Sessão de Filmes Clássicos (Sintel)',
+    description: 'Relembre os grandes clássicos do cinema mundial. Exibindo filme open-source "Sintel".',
     genre: 'Filmes',
-    language: 'Português',
+    language: 'Inglês', // Sintel não tem dublagem PT-BR oficial em HLS público
     quality: 'Adaptável',
     thumbnailUrl: 'https://placehold.co/400x225.png',
-    streamUrl: 'https://bitmovin-a.akamaihd.net/content/sintel/hls/playlist.m3u8', // Outro stream de teste público
-    dataAiHint: 'classic movie',
+    streamUrl: 'https://bitmovin-a.akamaihd.net/content/sintel/hls/playlist.m3u8', // Stream HLS do Sintel
+    dataAiHint: 'animation movie',
   },
   {
     id: '5',
@@ -60,7 +60,7 @@ export const mockStreams: Stream[] = [
   {
     id: '6',
     title: 'Documentários Incríveis (Teste HLS Apple)',
-    description: 'Explore a natureza, história, ciência e cultura com documentários fascinantes.',
+    description: 'Explore a natureza, história, ciência e cultura com documentários fascinantes. Usando stream de teste da Apple.',
     genre: 'Documentário',
     language: 'Inglês',
     quality: 'Adaptável',
@@ -82,9 +82,9 @@ export const mockStreams: Stream[] = [
   {
     id: '8',
     title: 'Canal Retro Gamer (Teste HLS Apple)',
-    description: 'Gameplay de jogos clássicos, reviews e nostalgia do mundo dos games.',
+    description: 'Gameplay de jogos clássicos, reviews e nostalgia do mundo dos games. Usando stream de teste da Apple.',
     genre: 'Games',
-    language: 'Português',
+    language: 'Português', // O stream em si é mudo ou com áudio genérico
     quality: 'Adaptável',
     thumbnailUrl: 'https://placehold.co/400x225.png',
     streamUrl: 'https://devstreaming-cdn.apple.com/videos/streaming/examples/img_bipbop_adv_example_fmp4/master.m3u8', // Stream de teste da Apple
