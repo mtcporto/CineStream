@@ -4,103 +4,50 @@ import type { Stream } from './types';
 export const mockStreams: Stream[] = [
   {
     id: '1',
-    title: 'ISTV Nacional (Teste HLS Confirmado)',
-    description: 'Fique por dentro das últimas notícias do Brasil e do mundo, ao vivo, 24 horas por dia. Testando com stream confirmado.',
+    title: 'ISTV Nacional',
+    description: 'Fique por dentro das últimas notícias do Brasil e do mundo, ao vivo, 24 horas por dia.',
     genre: 'Notícias',
     language: 'Português',
     quality: 'Adaptável',
     thumbnailUrl: 'https://placehold.co/400x225.png',
-    streamUrl: 'https://video08.logicahost.com.br/istvnacional/srt.stream/istvnacional.m3u8', // URL Confirmada
+    streamUrl: 'https://video08.logicahost.com.br/istvnacional/srt.stream/istvnacional.m3u8',
     dataAiHint: 'news live',
   },
   {
-    id: '2',
-    title: 'Esportes Ao Vivo HD (Exibindo Sintel para teste)',
-    description: 'Transmissão ao vivo dos principais eventos esportivos, análises e debates. Atualmente exibindo filme "Sintel" para teste do player.',
-    genre: 'Esportes',
-    language: 'Inglês', // Sintel
-    quality: 'Adaptável',
-    thumbnailUrl: 'https://placehold.co/400x225.png',
-    streamUrl: 'https://bitmovin-a.akamaihd.net/content/sintel/hls/playlist.m3u8', // Stream HLS do Sintel
-    dataAiHint: 'sports soccer',
-  },
-  {
-    id: '3',
-    title: 'Culinária da Vovó',
-    description: 'Receitas tradicionais e dicas de culinária para o dia a dia, com um toque caseiro.',
-    genre: 'Culinária',
-    language: 'Português',
-    quality: '720p',
-    thumbnailUrl: 'https://placehold.co/400x225.png',
-    streamUrl: 'placeholder_tv_channel_url_3',
-    dataAiHint: 'cooking food',
-  },
-  {
-    id: '4',
-    title: 'Sessão de Filmes Clássicos (Sintel)',
-    description: 'Relembre os grandes clássicos do cinema mundial. Exibindo filme open-source "Sintel".',
+    id: '4', // Mantendo o ID para consistência se já houver links ou favoritos
+    title: 'Cinema Livre: Sintel',
+    description: 'Assista ao filme de animação open-source "Sintel", uma produção da Blender Foundation.',
     genre: 'Filmes',
-    language: 'Inglês', 
+    language: 'Inglês',
     quality: 'Adaptável',
     thumbnailUrl: 'https://placehold.co/400x225.png',
-    streamUrl: 'https://bitmovin-a.akamaihd.net/content/sintel/hls/playlist.m3u8', // Stream HLS do Sintel
+    streamUrl: 'https://bitmovin-a.akamaihd.net/content/sintel/hls/playlist.m3u8',
     dataAiHint: 'animation movie',
   },
   {
-    id: '5',
-    title: 'Mundo Infantil',
-    description: 'Desenhos animados, séries e programas educativos para crianças de todas as idades.',
-    genre: 'Infantil',
-    language: 'Português',
-    quality: '720p',
-    thumbnailUrl: 'https://placehold.co/400x225.png',
-    streamUrl: 'placeholder_tv_channel_url_5',
-    dataAiHint: 'kids cartoon',
-  },
-  {
-    id: '6',
-    title: 'Documentários Incríveis (Exibindo Sintel para teste)',
-    description: 'Explore a nature, história, ciência e cultura com documentários fascinantes. Atualmente exibindo filme "Sintel" para teste do player.',
-    genre: 'Documentário',
-    language: 'Inglês', // Sintel
+    id: '10', // Novo ID para o novo canal
+    title: 'NASA TV (Public)',
+    description: 'Transmissão ao vivo da NASA com cobertura de missões, eventos e documentários espaciais.',
+    genre: 'Educacional',
+    language: 'Inglês',
     quality: 'Adaptável',
     thumbnailUrl: 'https://placehold.co/400x225.png',
-    streamUrl: 'https://bitmovin-a.akamaihd.net/content/sintel/hls/playlist.m3u8', // Stream HLS do Sintel
-    dataAiHint: 'nature documentary',
+    streamUrl: 'https://nasa-i.akamaihd.net/hls/live/253565/NASA-NTV1-Public/master.m3u8',
+    dataAiHint: 'nasa space',
   },
-  {
-    id: '7',
-    title: 'Variedades Show',
-    description: 'Programas de auditório, entrevistas, música e entretenimento para toda a família.',
-    genre: 'Variedades',
-    language: 'Português',
-    quality: '720p',
-    thumbnailUrl: 'https://placehold.co/400x225.png',
-    streamUrl: 'placeholder_tv_channel_url_7',
-    dataAiHint: 'tv show',
-  },
-  {
-    id: '8',
-    title: 'Canal Retro Gamer (Exibindo Sintel para teste)',
-    description: 'Gameplay de jogos clássicos, reviews e nostalgia do mundo dos games. Atualmente exibindo filme "Sintel" para teste do player.',
-    genre: 'Games',
-    language: 'Inglês', // Sintel
-    quality: 'Adaptável',
-    thumbnailUrl: 'https://placehold.co/400x225.png',
-    streamUrl: 'https://bitmovin-a.akamaihd.net/content/sintel/hls/playlist.m3u8', // Stream HLS do Sintel
-    dataAiHint: 'retro gaming',
-  },
-  {
-    id: '9',
-    title: 'Teste Playlist Brasil (HLS Genérica)',
-    description: 'Testando uma playlist M3U8 de canais brasileiros. A reprodução dependerá do primeiro stream válido na lista.',
-    genre: 'Teste',
-    language: 'Português',
-    quality: 'Variável',
-    thumbnailUrl: 'https://placehold.co/400x225.png',
-    streamUrl: 'https://raw.githubusercontent.com/Free-TV/IPTV/refs/heads/master/playlists/playlist_brazil.m3u8',
-    dataAiHint: 'brazil iptv',
-  },
+  // Adicione mais canais com streams públicos/abertos aqui, se encontrados.
+  // Exemplo de outro filme open-source (Big Buck Bunny), se encontrarmos um HLS estável:
+  // {
+  //   id: '11',
+  //   title: 'Cinema Livre: Big Buck Bunny',
+  //   description: 'Divirta-se com "Big Buck Bunny", outro clássico da Blender Foundation.',
+  //   genre: 'Animação',
+  //   language: 'Sem diálogo',
+  //   quality: 'Adaptável',
+  //   thumbnailUrl: 'https://placehold.co/400x225.png',
+  //   streamUrl: 'URL_HLS_BIG_BUCK_BUNNY_SE_ENCONTRADA', // Ex: https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8 (Nota: este é um stream de teste genérico da Mux, pode não ser o BBB)
+  //   dataAiHint: 'bunny animation',
+  // },
 ];
 
 export const genres = Array.from(new Set(mockStreams.map(s => s.genre))).sort();
