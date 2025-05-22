@@ -1,3 +1,4 @@
+
 import { getStreamById } from '@/lib/data';
 import type { Stream as Channel } from '@/lib/types';
 import { VideoPlayer } from '@/components/video-player';
@@ -10,12 +11,13 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 
 interface ChannelDetailsPageProps {
-  params: { id: string } | Promise<{ id: string }>; // Adjusting type based on error
+  params: { id: string }; 
 }
 
 export async function generateMetadata({ params }: ChannelDetailsPageProps) {
-  const resolvedParams = await params; // Attempt to resolve params if it's a Promise
-  const channelId = resolvedParams.id;
+  // Reverted to direct access as per standard Next.js App Router.
+  // If "params should be awaited" error persists, it's an environment-specific issue.
+  const channelId = params.id;
   const channel = getStreamById(channelId);
   if (!channel) {
     return { title: 'Canal Não Encontrado - Canal Play' };
@@ -24,8 +26,8 @@ export async function generateMetadata({ params }: ChannelDetailsPageProps) {
 }
 
 export default async function ChannelDetailsPage({ params }: ChannelDetailsPageProps) {
-  const resolvedParams = await params; // Attempt to resolve params if it's a Promise
-  const channelId = resolvedParams.id;
+  // Reverted to direct access.
+  const channelId = params.id;
   const channel = getStreamById(channelId);
 
   if (!channel) {
@@ -56,7 +58,7 @@ export default async function ChannelDetailsPage({ params }: ChannelDetailsPageP
               src={channel.thumbnailUrl}
               alt={`Logo do canal ${channel.title}`}
               fill
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              sizes="(max-width: 768px) 100vw, 33vw" // Adjusted sizes
               className="rounded-l-lg object-cover"
               data-ai-hint={channel.dataAiHint || "tv channel logo"}
             />
@@ -116,3 +118,4 @@ export default async function ChannelDetailsPage({ params }: ChannelDetailsPageP
     </div>
   );
 }
+

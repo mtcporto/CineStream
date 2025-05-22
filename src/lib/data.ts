@@ -1,3 +1,4 @@
+
 import type { Stream } from './types';
 
 export const mockStreams: Stream[] = [
@@ -9,7 +10,6 @@ export const mockStreams: Stream[] = [
     language: 'Português',
     quality: 'Adaptável',
     thumbnailUrl: 'https://placehold.co/400x225.png',
-    // Exemplo de stream HLS público para teste (Apple's BipBop)
     streamUrl: 'https://devstreaming-cdn.apple.com/videos/streaming/examples/img_bipbop_adv_example_fmp4/master.m3u8',
     dataAiHint: 'news live',
   },
@@ -21,7 +21,6 @@ export const mockStreams: Stream[] = [
     language: 'Português',
     quality: 'Adaptável',
     thumbnailUrl: 'https://placehold.co/400x225.png',
-    // Usando o stream da Apple como substituto para o Mux que estava com erro 400
     streamUrl: 'https://devstreaming-cdn.apple.com/videos/streaming/examples/img_bipbop_adv_example_fmp4/master.m3u8',
     dataAiHint: 'sports soccer',
   },
@@ -44,7 +43,6 @@ export const mockStreams: Stream[] = [
     language: 'Português',
     quality: 'Adaptável',
     thumbnailUrl: 'https://placehold.co/400x225.png',
-    // Outro stream de teste HLS (Bitmovin Sintel)
     streamUrl: 'https://bitmovin-a.akamaihd.net/content/sintel/hls/playlist.m3u8',
     dataAiHint: 'classic movie',
   },
@@ -89,9 +87,19 @@ export const mockStreams: Stream[] = [
     language: 'Português',
     quality: 'Adaptável',
     thumbnailUrl: 'https://placehold.co/400x225.png',
-    // Usando o stream da Apple como substituto para o Mux que estava com erro 400
     streamUrl: 'https://devstreaming-cdn.apple.com/videos/streaming/examples/img_bipbop_adv_example_fmp4/master.m3u8',
     dataAiHint: 'retro gaming',
+  },
+  {
+    id: '9',
+    title: 'Teste Playlist Brasil (HLS)',
+    description: 'Testando uma playlist M3U8 de canais brasileiros. A reprodução dependerá do primeiro stream válido na lista.',
+    genre: 'Teste',
+    language: 'Português',
+    quality: 'Variável',
+    thumbnailUrl: 'https://placehold.co/400x225.png',
+    streamUrl: 'https://raw.githubusercontent.com/Free-TV/IPTV/refs/heads/master/playlists/playlist_brazil.m3u8',
+    dataAiHint: 'brazil iptv',
   },
 ];
 
