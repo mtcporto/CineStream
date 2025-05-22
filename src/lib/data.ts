@@ -15,13 +15,13 @@ export const mockStreams: Stream[] = [
   },
   {
     id: '2',
-    title: 'Esportes Ao Vivo HD (Teste HLS Apple)',
-    description: 'Transmissão ao vivo dos principais eventos esportivos, análises e debates. Usando stream de teste da Apple.',
+    title: 'Esportes Ao Vivo HD (Exibindo Sintel para teste)',
+    description: 'Transmissão ao vivo dos principais eventos esportivos, análises e debates. Atualmente exibindo filme "Sintel" para teste do player.',
     genre: 'Esportes',
-    language: 'Português',
+    language: 'Inglês', // Sintel
     quality: 'Adaptável',
     thumbnailUrl: 'https://placehold.co/400x225.png',
-    streamUrl: 'https://devstreaming-cdn.apple.com/videos/streaming/examples/img_bipbop_adv_example_fmp4/master.m3u8', // Stream de teste da Apple
+    streamUrl: 'https://bitmovin-a.akamaihd.net/content/sintel/hls/playlist.m3u8', // Stream HLS do Sintel
     dataAiHint: 'sports soccer',
   },
   {
@@ -40,7 +40,7 @@ export const mockStreams: Stream[] = [
     title: 'Sessão de Filmes Clássicos (Sintel)',
     description: 'Relembre os grandes clássicos do cinema mundial. Exibindo filme open-source "Sintel".',
     genre: 'Filmes',
-    language: 'Inglês', // Sintel não tem dublagem PT-BR oficial em HLS público
+    language: 'Inglês', 
     quality: 'Adaptável',
     thumbnailUrl: 'https://placehold.co/400x225.png',
     streamUrl: 'https://bitmovin-a.akamaihd.net/content/sintel/hls/playlist.m3u8', // Stream HLS do Sintel
@@ -59,13 +59,13 @@ export const mockStreams: Stream[] = [
   },
   {
     id: '6',
-    title: 'Documentários Incríveis (Teste HLS Apple)',
-    description: 'Explore a natureza, história, ciência e cultura com documentários fascinantes. Usando stream de teste da Apple.',
+    title: 'Documentários Incríveis (Exibindo Sintel para teste)',
+    description: 'Explore a nature, história, ciência e cultura com documentários fascinantes. Atualmente exibindo filme "Sintel" para teste do player.',
     genre: 'Documentário',
-    language: 'Inglês',
+    language: 'Inglês', // Sintel
     quality: 'Adaptável',
     thumbnailUrl: 'https://placehold.co/400x225.png',
-    streamUrl: 'https://devstreaming-cdn.apple.com/videos/streaming/examples/img_bipbop_adv_example_fmp4/master.m3u8', // Stream de teste da Apple
+    streamUrl: 'https://bitmovin-a.akamaihd.net/content/sintel/hls/playlist.m3u8', // Stream HLS do Sintel
     dataAiHint: 'nature documentary',
   },
   {
@@ -81,13 +81,13 @@ export const mockStreams: Stream[] = [
   },
   {
     id: '8',
-    title: 'Canal Retro Gamer (Teste HLS Apple)',
-    description: 'Gameplay de jogos clássicos, reviews e nostalgia do mundo dos games. Usando stream de teste da Apple.',
+    title: 'Canal Retro Gamer (Exibindo Sintel para teste)',
+    description: 'Gameplay de jogos clássicos, reviews e nostalgia do mundo dos games. Atualmente exibindo filme "Sintel" para teste do player.',
     genre: 'Games',
-    language: 'Português', // O stream em si é mudo ou com áudio genérico
+    language: 'Inglês', // Sintel
     quality: 'Adaptável',
     thumbnailUrl: 'https://placehold.co/400x225.png',
-    streamUrl: 'https://devstreaming-cdn.apple.com/videos/streaming/examples/img_bipbop_adv_example_fmp4/master.m3u8', // Stream de teste da Apple
+    streamUrl: 'https://bitmovin-a.akamaihd.net/content/sintel/hls/playlist.m3u8', // Stream HLS do Sintel
     dataAiHint: 'retro gaming',
   },
   {
